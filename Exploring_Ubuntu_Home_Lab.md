@@ -9,8 +9,8 @@ Here I document commands, screenshots, and findings while exploring my Ubuntu se
 ## 1. Identify Network Interfaces and IP Addresses  
 **Commands used:**
 `ifconfig`
-![Task 1.1 Screenshot](Step1.1.png)
-![Task 1.2 Screenshot](Step1.2.png)
+![Task 1.1 Screenshot](images/Step1.1.png)
+![Task 1.2 Screenshot](images/Step1.2.png)
 
 ### Purpose: 
 This command displays all network interfaces and their associated IP addresses
@@ -27,7 +27,7 @@ I was able to see two network interfaces — the loopback (lo) and the main adap
 ## 2. Check Open Ports  
 **Commands used:**
 `sudo ss -tuln`
-![Task 2 Screenshot](Step2.png)
+![Task 2 Screenshot](images/Step2.png)
 
 ### Purpose:
 Lists all open ports on the server along with the services listening on them. This
@@ -45,7 +45,7 @@ The scan showed that SSH (22) was open, which is normal. But I also noticed FTP 
 ## 3. Analyze Network Connections  
 **Commands used:**
 `sudo lsof -i -P -n`
-![Task 3 Screenshot](Step3.png)
+![Task 3 Screenshot](images/Step3.png)
 
 ### Purpose:
 Lists all open network connections, which can help you identify unexpected or
@@ -62,7 +62,7 @@ This step listed which programs were using the ports. SSH was linked to port 22,
 ## 4. Perform Network Scanning with Nmap
 **Commands used:**
 `sudo nmap -sS -O localhost`
-![Task 4 Screenshot](Step4.png)
+![Task 4 Screenshot](images/Step4.png)
 
 ### Purpose:
 Scans your server to identify open ports, running services, and the operating
@@ -79,8 +79,8 @@ Nmap confirmed the same open ports (21, 22, 23, 631). It also detected that the 
 ## 5. Check for Devices on the Local Network 
 **Commands used:**
 `sudo nmap -sP 192.168.1.0/24`
-![Task 5.1 Screenshot](Step5.1.png)
-![Task 5.2 Screenshot](Step5.2.png)
+![Task 5.1 Screenshot](images/Step5.1.png)
+![Task 5.2 Screenshot](images/Step5.2.png)
 
 ### Purpose:
 Identifies all live hosts on your local network. This helps you understand the
@@ -96,7 +96,7 @@ The scan picked up multiple devices on my subnet, including my VM and the router
 ## 6. Check Services and Versions 
 **Commands used:**
 `sudo nmap -sV localhost`
-![Task 6 Screenshot](Step6.png)
+![Task 6 Screenshot](images/Step6.png)
 
 ### Purpose:
 Scans for open ports and attempts to determine the service and version running
@@ -112,8 +112,8 @@ Nmap displayed the specific software running on the open ports, such as OpenSSH 
 ## 7. Identify Potential Vulnerabilities 
 **Commands used:**
 `sudo nmap --script vuln localhost`
-![Task 7.1 Screenshot](Step7.1.png)
-![Task 7.2 Screenshot](Step7.2.png)
+![Task 7.1 Screenshot](images/Step7.1.png)
+![Task 7.2 Screenshot](images/Step7.2.png)
 
 ### Purpose:
 Uses Nmap's vulnerability scanning scripts to identify known vulnerabilities on the
@@ -132,9 +132,9 @@ The vulnerability scan tried many scripts. Some of them didn’t work, but one c
 `ip link show`
 # Captured 50 packets on enp0s3:
 `sudo tcpdump -i enp0s3 -nn -c 50`
-![Task 8.1 Screenshot](Step8.1.png)
-![Task 8.2 Screenshot](Step8.2.png)
-![Task 8.3 Screenshot](Step8.3.png)
+![Task 8.1 Screenshot](images/Step8.1.png)
+![Task 8.2 Screenshot](images/Step8.2.png)
+![Task 8.3 Screenshot](images/Step8.3.png)
 
 ### Purpose:
 Monitors network traffic on a specific interface (e.g., eth0). This is helpful to
@@ -150,8 +150,8 @@ With tcpdump, I captured live packets moving on the network. I saw ARP requests 
 ## 9. Monitor Network Connections in Real-Time
 **Commands used:**
 `sudo watch -n 1 netstat -tulnp`  
-![Task 9.1 Screenshot](Step9.1.png)
-![Task 9.2 Screenshot](Step9.2.png)
+![Task 9.1 Screenshot](images/Step9.1.png)
+![Task 9.2 Screenshot](images/Step9.2.png)
 
 ### Purpose: 
 Continuously monitors network connections, updating every second (-n 1). This
@@ -168,7 +168,7 @@ Using the watch command, I could monitor connections updating every second. The 
 ## 10. Check Firewall Rules  
 **Command used:**
 `sudo ufw status verbose`
-![Task 10 Screenshot](Step10.png)
+![Task 10 Screenshot](images/Step10.png)
 
 ### Purpose:
 Displays the current firewall rules configured on your server, showing which ports
