@@ -11,5 +11,7 @@ Each lab is documented as a separate "chapter" in markdown format. The goal of t
 - [Exploring Ubuntu Home Lab](Exploring_Ubuntu_Home_Lab.md)  
 *(Assignment 4: Identifying network interfaces, scanning ports, checking firewall rules, and more)*
 
+- [Exploring Ubuntu Firewall (UFW)](Exploring_Ubuntu_Firewall_UFW.md)  
+  *(Assignment 5: Configuring UFW firewall rules, blocking/allowing traffic, enabling logging, and monitoring log activity)*
 ---
 
