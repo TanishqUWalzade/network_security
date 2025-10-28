@@ -13,5 +13,9 @@ Each lab is documented as a separate "chapter" in markdown format. The goal of t
 
 - [Exploring Ubuntu Firewall (UFW)](Exploring_Ubuntu_Firewall_UFW.md)  
   *(Assignment 5: Configuring UFW firewall rules, blocking/allowing traffic, enabling logging, and monitoring log activity)*
+
+- [Snort Installation and Configuration Home Lab](Snort_Installation_and_Configuration_Home_Lab.md)  
+  *(Assignment 6: Installing and configuring Snort on Ubuntu, setting up network interfaces and HOME_NET, adding community and local rules, validating configuration, running Snort in IDS/daemon mode, and analyzing alert logs)*
+
 ---
 
