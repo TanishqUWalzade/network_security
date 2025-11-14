@@ -17,5 +17,8 @@ Each lab is documented as a separate "chapter" in markdown format. The goal of t
 - [Snort Installation and Configuration Home Lab](Snort_Installation_and_Configuration_Home_Lab.md)  
   *(Assignment 6: Installing and configuring Snort on Ubuntu, setting up network interfaces and HOME_NET, adding community and local rules, validating configuration, running Snort in IDS/daemon mode, and analyzing alert logs)*
 
+- [Suricata, Loki, and Grafana Log Analysis Lab](SIEM_Suricata_Log_Analysis.md)  
+  *(Assignment 8: Setting up Suricata, creating custom detection rules, forwarding logs via Promtail to Loki, querying alerts using LogCLI, visualizing results in Grafana, and cleaning up the environment)*
+
 ---
 
