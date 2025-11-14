@@ -26,7 +26,7 @@ sudo apt -y install curl jq unzip
 
 To make sure my system is up to date and has the necessary tools installed. This helps avoid issues with outdated packages and prepares the system for tasks that involve downloading files, handling JSON, or working with zip archives.
 
-**Tool Explanation:** 
+**Tools Explanation:** 
 
 **`sudo apt update`** checks for the latest available package versions.
 
@@ -59,7 +59,7 @@ newgrp docker
 
 To install Docker on my system and configure it so that I can use Docker commands without needing to prepend sudo every time. This setup is useful for managing containers more efficiently as a non-root user.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`curl -fsSL https://get.docker.com | sudo sh`**
 This command downloads and runs Docker’s official installation script. It checks whether Docker is already installed and warns if a version is detected.
@@ -84,7 +84,7 @@ docker --version
 
 Enable Docker as a system service and check its version to confirm everything is working correctly.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo systemctl enable --now docker`**
 This enables Docker to start on boot and also starts the service immediately.
@@ -115,7 +115,7 @@ sudo suricata-update
 
 To install Suricata, an open-source intrusion detection and prevention engine, and update it with the latest threat detection rules. Keeping the rules up to date ensures the system can detect and respond to emerging network threats effectively.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo apt -y install suricata`**
 Installs the Suricata engine and its dependencies. Suricata is responsible for monitoring network traffic in real-time and generating alerts based on predefined rules.
@@ -142,7 +142,7 @@ ip -br a | awk '$1!="lo"{print $1, $3}'
 
 To quickly find out which network interface on my system is actively being used so I can configure Suricata to listen on the correct interface for packet capture.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`ip -br a`**
 Shows all network interfaces in a brief and clean format, making it easier to read compared to the full ip a output.
@@ -171,7 +171,7 @@ sudo touch /etc/suricata/rules/local.rules
 
 To prepare a location for writing and storing custom Suricata rules. This allows me to define my own detection logic tailored to specific threats or traffic patterns I want to monitor in my network.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo mkdir -p /etc/suricata/rules`**
 Creates the directory path for storing Suricata rules. The -p flag ensures that any missing parent directories are also created without throwing an error.
@@ -193,7 +193,7 @@ sudo nano /etc/suricata/suricata.yaml
 
 To configure Suricata so it loads the correct rule paths, including the custom local.rules file I created earlier. This ensures my personal detection rules are applied during traffic analysis. It also allows Suricata to monitor traffic on the correct network interface.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo nano /etc/suricata/suricata.yaml`**
 Opens the main Suricata configuration file in the terminal using the Nano text editor with elevated permissions, allowing changes to be made and saved.
@@ -224,7 +224,7 @@ suricata - update --help
 
 I used this step to make sure my Suricata configuration file was set up properly and that all the rule files could be loaded without issues. This validation is important because it checks for any mistakes in the YAML file or rule syntax before actually running Suricata on live traffic. I also explored the **`suricata-update`** help command to understand how rule updates are managed.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 The command **`sudo suricata -T -c /etc/suricata/suricata.yaml -v`** runs Suricata in test mode (**`-T`**) to validate the config and rule files without starting traffic monitoring. The **`-c`** flag specifies the config file to use, and **`-v`** enables verbose output for more detailed feedback. This helps catch setup issues early. Running **`suricata-update --help`** shows available options for managing rules, like **`-D`** to set a custom data directory, **`--enable-conf`/`--disable-conf`** to control rule sources, and **`--offline`** for updating rules without internet — useful for customizing rule updates.
 
@@ -253,7 +253,7 @@ sudo suricata -i $(ip -br a | awk '$1!="lo"{print $1; exit}') -D
 
 The goal of this step was to manually launch Suricata in daemon mode so it could start analyzing real-time network traffic. Before running it manually, I had to stop the service-based version to avoid conflicts — since Suricata can't run in two places at once using the same interface.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo systemctl stop suricata`**
 
@@ -288,7 +288,7 @@ Both commands are used to inspect Suricata's log data stored in **`eve.json`**, 
 
   The second is for static viewing — it shows the entire current content of the log file in a nicely formatted JSON view.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo tail -f /var/log/suricata/eve.json | jq .`**
 Continuously outputs new logs as they are written to the file, with jq making the JSON output clean and readable. Perfect when I want to watch events unfold live.
@@ -313,7 +313,7 @@ sudo mkdir -p /etc/loki /var/lib/loki/{chunks,rules}
 
 Before running Loki, I needed to set up proper directories for both its configuration and data storage. The **`/etc/loki`** directory is where the main configuration file will live, and the two folders under **`/var/lib/loki/`** — **`chunks`** and **`rules`** — are where Loki stores actual log data and rule sets.  
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`sudo mkdir -p /etc/loki`**: This makes sure the config directory exists.
 
@@ -359,7 +359,7 @@ EOF
 
 The aim here was to set up Loki’s main configuration file so it can properly start, store logs, and make them searchable. I defined where Loki should keep its data (like log chunks and rules), which port it should listen on, and how it handles indexing and schema. This config ensures that everything is organized and Loki runs smoothly using local storage.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 I used the cat **`<<'EOF' | sudo tee /etc/loki/loki-config.yml`** command to quickly create Loki’s main config file. This method let me write a bunch of lines at once into the file without opening a text editor. It was an easy way to define all Loki settings like storage paths, port number, and how logs are indexed—all in one go.
 
@@ -377,7 +377,7 @@ sudo chmod -R u+rwX /var/lib/loki
 
 Make sure Loki can properly read from and write to its log and config directories inside the container. Without this step, it might crash or fail to start due to lack of access.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 I used **`chown`** to change the ownership of the Loki data directory to the user ID 10001, which Loki runs as inside its container. Then, with **`chmod`**, I made sure the user has read, write, and execute permissions where needed. This way, Loki won’t run into permission issues when trying to store or access logs.
 
@@ -394,7 +394,7 @@ sudo docker run -d --name loki -p 3100:3100   -v /etc/loki:/etc/loki   -v /var/l
 
 Start Loki as a Docker container and load it with the configuration file I created earlier. This step brings Loki online so it can start accepting and storing logs.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 I used the **`docker run`** command to start the Loki container in the background. The **`-p`** option makes Loki available on port 3100, while the **`-v`** flags link the local config and data directories with the container. Finally, I pointed it to the custom config file to make sure Loki runs with the correct setup.
 
@@ -411,7 +411,7 @@ curl -s http://localhost:3100/ready; echo
 
 The goal of this step is to quickly check whether Loki has started properly and is ready to handle requests. If Loki is running as expected, it should return the word “ready”, confirming that the service is up.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 I used **`curl`** here because it’s a simple way to send an HTTP request from the terminal. The **`-s`** flag hides extra output, so I only see the actual response. Adding **`echo`** just makes sure the output ends on a clean new line.
 
@@ -432,7 +432,7 @@ sudo mkdir -p /etc/promtail /var/lib/promtail
 
 This step is for setting up the configuration file that tells Promtail how and where to collect logs, and where to send them (in this case, to Loki).
 
-**Tool Explanation:**
+**Tools Explanation:**
 
   **`mkdir`** creates the config folder for Promtail.
 
@@ -488,7 +488,7 @@ sudo docker run -d --name promtail -p 9080:9080   -v /etc/promtail:/etc/promtail
 
 Start the Promtail container to collect Suricata logs from the host system and forward them to Loki for central log aggregation and analysis.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 **`Docker`**: Used to run Promtail in an isolated container.
 
@@ -561,7 +561,7 @@ logcli query --addr=http://localhost:3100 --limit=10 '{job="suricata"}'
 
 To verify that Suricata logs are being properly ingested and stored in Loki by querying them using **`logcli`**.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 In this task, the **`logcli`** command-line tool is used to run a test query against a locally running Loki server (http://localhost:3100). The query filter {job="suricata"} is used to retrieve logs related to Suricata, a network threat detection engine. The --limit=10 flag restricts the result to the 10 most recent logs. This tool is effective for directly querying logs from a terminal, especially useful for quick debugging and verification without needing a full UI like Grafana.
 
@@ -667,7 +667,7 @@ logcli query --addr=http://localhost:3100 --limit=1000 --since=5m '{job="suricat
 
 The purpose of this task is to identify which source IP addresses are most frequently triggering Suricata alerts. This helps in spotting potentially malicious or overly active devices on the network.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 This command uses **`logcli`**, a tool for querying logs stored in Grafana Loki. It fetches the last 5 minutes of logs from the **`suricata`** job, filters for alert events, and extracts the **`src_ip`** field using the **`json`** parser and **`line_format`**. The output is then sorted and counted to find the most common IPs generating alerts. This is a quick and efficient way to surface noisy or suspicious IP addresses.
 
@@ -691,7 +691,7 @@ curl -A "BLOCKME" http://example.com || true
 
 The aim of this task was to create and test a custom Suricata rule that detects specific content in network traffic. In this case, we wanted Suricata to raise an alert whenever it finds the keyword **`"BLOCKME"`** in an HTTP request, which helps test the effectiveness of rule-based detection.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 To complete this task, I used the **`echo`** command along with **`sudo tee -a`** to add a custom alert rule directly into the **`local.rules`** file used by Suricata. This rule was designed to match HTTP traffic containing the keyword **`"BLOCKME"`**. After that, I restarted Suricata using **`sudo systemctl restart suricata`** to apply the new rule. To trigger the alert, I used the **`curl`** command with a custom **`User-Agent`** header (**`-A "BLOCKME"`**) to simulate traffic that should match the rule and be detected by Suricata.
 
@@ -712,7 +712,7 @@ logcli query --addr=http://localhost:3100 --limit=50 '{job="suricata"} |= "Block
 
 The purpose of this step is to confirm that the custom Suricata rule is successfully generating alerts and that these alerts are being forwarded into Loki. By querying Loki with a specific alert keyword, we can verify that the log pipeline—from Suricata to Promtail to Loki is working properly.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 This task mainly uses LogCLI, the command‑line interface for Loki, which allows us to run queries directly against the Loki database without using Grafana. LogCLI helps filter logs by specific patterns, keywords, and labels. Here, it is used to search for the custom alert text (“Blocked keyword detected”) to ensure that Suricata’s alert was properly captured and stored.
 
@@ -755,7 +755,7 @@ sudo docker system prune -a -f
 
 This involves stopping and removing containers, uninstalling software like Suricata, and deleting unused Docker resources. This step helps in maintaining a clean environment, freeing up disk space, and preventing unnecessary background processes from consuming resources.
 
-**Tool Explanation:**
+**Tools Explanation:**
 
 The tools involved in this cleanup process include Docker and APT package manager. Docker was used to stop (**`docker stop`**) and remove (**`docker rm`**) the containers named promtail and loki. These containers were part of the monitoring setup and are no longer needed. Next, **`sudo apt purge -y suricata`** was used to completely uninstall Suricata along with its configuration files. Finally, the command **`sudo docker system prune -a -f`** was used to aggressively clean up unused Docker images, networks, and containers to reclaim system space.
 
